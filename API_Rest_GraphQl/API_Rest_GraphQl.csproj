@@ -6,6 +6,9 @@
 
   <ItemGroup>
     <Folder Include="Controllers\GraphQl\" />
+    <Folder Include="Controllers\Rest\" />
+    <Folder Include="Models\GraphTypes\" />
+    <Folder Include="Models\DTOs\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API_Rest_GraphQl.Controllers.Rest
+namespace API_Rest_GraphQl.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -20,8 +20,8 @@ namespace API_Rest_GraphQl.Controllers.Rest
         }
 
         [HttpGet]
-        [Route("~/teste")]
-        public async Task<ActionResult> Teste()
+        [Route("teste")]
+        public ActionResult Teste()
         {
             try
             {
@@ -34,7 +34,7 @@ namespace API_Rest_GraphQl.Controllers.Rest
         }
 
         [HttpGet]
-        [Route("~/obter/{id}")]
+        [Route("{id}")]
         public async Task<ActionResult<Livro>> Get(decimal id)
         {
             try
@@ -55,7 +55,7 @@ namespace API_Rest_GraphQl.Controllers.Rest
         }
 
         [HttpGet]
-        [Route("^/obter")]
+        [Route("")]
         public async Task<ActionResult<List<Livro>>> GetTodos()
         {
             try
@@ -76,7 +76,7 @@ namespace API_Rest_GraphQl.Controllers.Rest
         }
 
         [HttpPost]
-        [Route("~/adicionar")]
+        [Route("")]
         public async Task<ActionResult<Livro>> Post(Livro livro)
         {
             try
@@ -97,7 +97,7 @@ namespace API_Rest_GraphQl.Controllers.Rest
         }
 
         [HttpPut]
-        [Route("~/atualizar")]
+        [Route("")]
         public async Task<ActionResult<Livro>> Put(Livro livro)
         {
             try
@@ -118,8 +118,8 @@ namespace API_Rest_GraphQl.Controllers.Rest
         }
 
         [HttpDelete]
-        [Route("~/excluir/{id}")]
-        public async Task<ActionResult<bool>> Delete([FromQuery] decimal id)
+        [Route("{id}")]
+        public async Task<ActionResult<bool>> Delete(decimal id)
         {
             try
             {

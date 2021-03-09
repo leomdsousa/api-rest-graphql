@@ -22,6 +22,7 @@ namespace API_Rest_GraphQl.Repositorios
             try
             {
                 _context.Add(livro);
+                _context.SaveChangesAsync();
 
                 return livro;
             }
@@ -36,6 +37,7 @@ namespace API_Rest_GraphQl.Repositorios
             try
             {
                 _context.Update(livro);
+                _context.SaveChangesAsync();
 
                 return livro;
             }
@@ -50,6 +52,7 @@ namespace API_Rest_GraphQl.Repositorios
             try
             {
                 _context.Remove(livro);
+                _context.SaveChangesAsync();
 
                 return true;
             }

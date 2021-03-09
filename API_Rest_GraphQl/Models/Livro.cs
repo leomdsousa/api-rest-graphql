@@ -9,7 +9,7 @@ namespace API_Rest_GraphQl.Models
     {
         public decimal Id { get; set; }
         public string Nome { get; set; }
-        public int Autor { get; set; }
+        public string Autor { get; set; }
         public bool Lido { get; set; }
     }
 }
