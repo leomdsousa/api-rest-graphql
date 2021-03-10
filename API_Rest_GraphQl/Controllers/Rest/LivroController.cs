@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace API_Rest_GraphQl.Controllers
+namespace API_Rest_GraphQl.Controllers.Rest
 {
     [Route("api/[controller]")]
     [ApiController]

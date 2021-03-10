@@ -36,6 +36,8 @@ namespace API_Rest_GraphQl
 
             services.AddControllers();
 
+            services.AddAntiforgery();
+
             //CONTEXT
             services.AddDbContext<BibliotecaContext>(opt => opt.UseInMemoryDatabase("Biblioteca"));
 
