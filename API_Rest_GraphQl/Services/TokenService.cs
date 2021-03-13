@@ -5,16 +5,23 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using API_Rest_GraphQl.Models.AppSettings;
 using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
+using API_Rest_GraphQl.Services.Interfaces;
 
 namespace API_Rest_GraphQl.Services
 {
-    public static class TokenService
+    public class TokenService : ITokenService
     {
-        private static AppSettings _settings;
-
-        public static string GerarToken(Usuario usuario)
+        private readonly IConfiguration _configuration;
+        
+        public TokenService(IConfiguration configuration)
         {
-            var key = Encoding.ASCII.GetBytes(_settings.Configuration.Secret);
+            _configuration = configuration;
+        }
+
+        public string GerarToken(Usuario usuario)
+        {
+            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("AppSettings").GetSection("Configuration").GetSection("Secret").Value);
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
@@ -23,7 +30,7 @@ namespace API_Rest_GraphQl.Services
                          new Claim(ClaimTypes.Name, usuario.Nome),
                          new Claim(ClaimTypes.Role, usuario.Role.ToString())
                      }),
-                Expires = DateTime.Now.AddHours(1),
+                Expires = DateTime.Now.AddHours(5),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)

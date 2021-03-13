@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace API_Rest_GraphQl
@@ -45,6 +46,7 @@ namespace API_Rest_GraphQl
             {
                 config.RequireHttpsMetadata = false;
                 config.SaveToken = true;
+                config.IncludeErrorDetails = true;
                 config.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuerSigningKey = true,
@@ -54,12 +56,15 @@ namespace API_Rest_GraphQl
                 };
             });
 
+            IdentityModelEventSource.ShowPII = true;
+
             //CONTEXT
             services.AddDbContext<BibliotecaContext>(opt => opt.UseInMemoryDatabase("Biblioteca"));
 
             //SERVICES
             services.AddScoped<ISeedingService, SeedingService>();
             services.AddScoped<ILivroService, LivroService>();
+            services.AddScoped<ITokenService, TokenService>();
 
             //REPOSITORIOS
             services.AddScoped<ILivroRepository, LivroRepository>();

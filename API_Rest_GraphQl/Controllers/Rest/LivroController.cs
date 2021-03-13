@@ -37,7 +37,7 @@ namespace API_Rest_GraphQl.Controllers.Rest
 
         [HttpGet]
         [Route("{id}")]
-        //[Authorize]
+        [Authorize(Roles = "Administrador, Usuario")]
         public async Task<ActionResult<dynamic>> Get(decimal id)
         {
             try
@@ -59,7 +59,7 @@ namespace API_Rest_GraphQl.Controllers.Rest
 
         [HttpGet]
         [Route("")]
-        //[Authorize]
+        [Authorize(Roles = "Administrador, Usuario")]
         public async Task<ActionResult<List<LivroDTO>>> GetTodos()
         {
             try
@@ -81,7 +81,7 @@ namespace API_Rest_GraphQl.Controllers.Rest
 
         [HttpPost]
         [Route("")]
-        //[Authorize]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<dynamic>> Post(LivroDTO livro)
         {
             try
@@ -103,7 +103,7 @@ namespace API_Rest_GraphQl.Controllers.Rest
 
         [HttpPut]
         [Route("")]
-        //[Authorize]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<dynamic>> Put(LivroDTO livro)
         {
             try
@@ -125,7 +125,7 @@ namespace API_Rest_GraphQl.Controllers.Rest
 
         [HttpDelete]
         [Route("{id}")]
-        //[Authorize]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<dynamic>> Delete(decimal id)
         {
             try

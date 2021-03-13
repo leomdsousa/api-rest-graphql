@@ -39,7 +39,7 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
         [HttpPost]
         [Route("livro")]
         [Produces("application/json")]
-        //[Authorize]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Livro([FromBody] GraphQLQuery request)
         {
             try

@@ -1,6 +1,7 @@
 ﻿using API_Rest_GraphQl.Models.Entities;
 using API_Rest_GraphQl.Repositorios.Interfaces;
 using API_Rest_GraphQl.Services;
+using API_Rest_GraphQl.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,10 +14,12 @@ namespace API_Rest_GraphQl.Controllers.Rest
     public class AutenticacaoController : ControllerBase
     {
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly ITokenService _tokenService;
 
-        public AutenticacaoController(IUsuarioRepository usuarioRepository)
+        public AutenticacaoController(IUsuarioRepository usuarioRepository, ITokenService tokenService)
         {
             _usuarioRepository = usuarioRepository;
+            _tokenService = tokenService;
         }
 
         [HttpPost]
@@ -37,7 +40,7 @@ namespace API_Rest_GraphQl.Controllers.Rest
                     return NotFound(result);
                 }
 
-                var token = TokenService.GerarToken(usuario);
+                var token = _tokenService.GerarToken(usuario);
 
                 if (string.IsNullOrEmpty(token))
                 {
