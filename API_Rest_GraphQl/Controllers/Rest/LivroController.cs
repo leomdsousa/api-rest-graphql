@@ -1,9 +1,10 @@
 ﻿using API_Rest_GraphQl.Models;
+using API_Rest_GraphQl.Models.DTOs;
 using API_Rest_GraphQl.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace API_Rest_GraphQl.Controllers.Rest
@@ -21,6 +22,7 @@ namespace API_Rest_GraphQl.Controllers.Rest
 
         [HttpGet]
         [Route("teste")]
+        [AllowAnonymous]
         public ActionResult Teste()
         {
             try
@@ -35,7 +37,8 @@ namespace API_Rest_GraphQl.Controllers.Rest
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<Livro>> Get(decimal id)
+        //[Authorize]
+        public async Task<ActionResult<dynamic>> Get(decimal id)
         {
             try
             {
@@ -56,7 +59,8 @@ namespace API_Rest_GraphQl.Controllers.Rest
 
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<List<Livro>>> GetTodos()
+        //[Authorize]
+        public async Task<ActionResult<List<LivroDTO>>> GetTodos()
         {
             try
             {
@@ -77,7 +81,8 @@ namespace API_Rest_GraphQl.Controllers.Rest
 
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult<Livro>> Post(Livro livro)
+        //[Authorize]
+        public async Task<ActionResult<dynamic>> Post(LivroDTO livro)
         {
             try
             {
@@ -98,7 +103,8 @@ namespace API_Rest_GraphQl.Controllers.Rest
 
         [HttpPut]
         [Route("")]
-        public async Task<ActionResult<Livro>> Put(Livro livro)
+        //[Authorize]
+        public async Task<ActionResult<dynamic>> Put(LivroDTO livro)
         {
             try
             {
@@ -119,7 +125,8 @@ namespace API_Rest_GraphQl.Controllers.Rest
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult<bool>> Delete(decimal id)
+        //[Authorize]
+        public async Task<ActionResult<dynamic>> Delete(decimal id)
         {
             try
             {

@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using API_Rest_GraphQl.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace API_Rest_GraphQl.Models.Context
 {
@@ -13,5 +10,6 @@ namespace API_Rest_GraphQl.Models.Context
         }
 
         public DbSet<Livro> Livros { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }

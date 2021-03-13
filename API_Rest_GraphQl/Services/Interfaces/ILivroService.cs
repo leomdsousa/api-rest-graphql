@@ -1,17 +1,16 @@
 ﻿using API_Rest_GraphQl.Models;
-using System;
+using API_Rest_GraphQl.Models.DTOs;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace API_Rest_GraphQl.Services.Interfaces
 {
     public interface ILivroService
     {
-        Task<Livro> ObterLivro(decimal id);
-        Task<List<Livro>> ObterLivros();
-        Task<Livro> AdicionarLivro(Livro livro);
-        Task<Livro> AtualizarLivro(Livro livro);
+        Task<LivroDTO> ObterLivro(decimal id);
+        Task<List<LivroDTO>> ObterLivros();
+        Task<LivroDTO> AdicionarLivro(LivroDTO livro);
+        Task<LivroDTO> AtualizarLivro(LivroDTO livro);
         Task<bool> ExcluirLivro(decimal id);
     }
 }

@@ -7,6 +7,7 @@ using API_Rest_GraphQl.Repositorios.Interfaces;
 using GraphQL.Types;
 using API_Rest_GraphQl.Utilities;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_Rest_GraphQl.Controllers.GraphQL
 {
@@ -20,6 +21,9 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
             _repository = repository;
         }
 
+        [HttpGet]
+        [Route("teste")]
+        [AllowAnonymous]
         public IActionResult Teste()
         {
             try
@@ -33,8 +37,9 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
         }
 
         [HttpPost]
-        [Route("")]
+        [Route("livro")]
         [Produces("application/json")]
+        //[Authorize]
         public async Task<IActionResult> Livro([FromBody] GraphQLQuery request)
         {
             try

@@ -1,10 +1,11 @@
 ﻿using API_Rest_GraphQl.Models;
 using API_Rest_GraphQl.Models.Context;
+using API_Rest_GraphQl.Models.Entities;
 using API_Rest_GraphQl.Services.Interfaces;
+using API_Rest_GraphQl.Utilities.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace API_Rest_GraphQl.Services
 {
@@ -26,9 +27,10 @@ namespace API_Rest_GraphQl.Services
         {
             try
             {
-                if (_context.Livros.Any())
+                if (_context.Livros.Any() && _context.Usuarios.Any())
                     return;
 
+                #region [ ADD LIVROS ]
                 List<Livro> livros = new List<Livro>();
                 livros.Add(new Livro()
                 {
@@ -109,8 +111,39 @@ namespace API_Rest_GraphQl.Services
                     Autor = "Ray Bradbury",
                     Lido = true
                 });
+                #endregion [ ADD LIVROS ]
+
+                #region [ ADD USUARIOS ]
+
+                List<Usuario> usuarios = new List<Usuario>();
+
+                usuarios.Add(new Usuario()
+                {
+                    Id = 1,
+                    Nome = "Leonardo",
+                    Login = "leomons",
+                    Senha = "admin123",
+                    DataInclusao = DateTime.Now.AddDays(-500),
+                    UsuarioInclusao = 1,
+                    Role = Role.Administrador
+                });;
+
+                usuarios.Add(new Usuario()
+                {
+                    Id = 2,
+                    Nome = "Stefani",
+                    Login = "stefani",
+                    Senha = "usuario123",
+                    DataInclusao = DateTime.Now.AddDays(-500),
+                    UsuarioInclusao = 1,
+                    Role = Role.Usuario
+                });
+
+                #endregion [ ADD USUARIOS ]
 
                 _context.Livros.AddRange(livros);
+                _context.Usuarios.AddRange(usuarios);
+
                 _context.SaveChangesAsync();
             }
             catch(Exception ex)
