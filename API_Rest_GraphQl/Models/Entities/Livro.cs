@@ -1,4 +1,5 @@
-﻿using API_Rest_GraphQl.Models.Entities;
+﻿using API_Rest_GraphQl.Models.DTOs;
+using API_Rest_GraphQl.Models.Entities;
 
 namespace API_Rest_GraphQl.Models
 {
@@ -8,5 +9,16 @@ namespace API_Rest_GraphQl.Models
         public string Nome { get; set; }
         public string Autor { get; set; }
         public bool Lido { get; set; }
+        public LivroDTO ParseLivroDTo(Livro livro)
+        {
+            return new LivroDTO()
+            {
+                Id = livro.Id,
+                Nome = livro.Nome,
+                Autor = livro.Autor,
+                Lido = livro.Lido,
+            };
+        }
     }
+
 }

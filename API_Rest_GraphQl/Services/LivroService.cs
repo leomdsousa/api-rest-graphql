@@ -28,15 +28,7 @@ namespace API_Rest_GraphQl.Services
                     return null;
                 }
 
-                LivroDTO retorno = new LivroDTO()
-                {
-                    Id = livro.Id,
-                    Nome = livro.Nome,
-                    Autor = livro.Autor,
-                    Lido = livro.Lido
-                };
-
-                return retorno;
+                return livro.ParseLivroDTo(livro);
             }
             catch(Exception ex)
             {
@@ -59,13 +51,7 @@ namespace API_Rest_GraphQl.Services
 
                 foreach(var item in livros)
                 {
-                    retorno.Add(new LivroDTO()
-                    {
-                        Id = item.Id,
-                        Nome = item.Nome,
-                        Autor = item.Autor,
-                        Lido = item.Lido
-                    });
+                    retorno.Add(item.ParseLivroDTo(item));
                 }
 
                 return retorno;
@@ -97,15 +83,7 @@ namespace API_Rest_GraphQl.Services
                     return null;
                 }
 
-                LivroDTO retorno = new LivroDTO()
-                {
-                    Id = result.Id,
-                    Nome = result.Nome,
-                    Autor = result.Autor,
-                    Lido = result.Lido
-                };
-
-                return retorno;
+                return result.ParseLivroDTo(result);
             }
             catch (Exception ex)
             {
@@ -134,15 +112,7 @@ namespace API_Rest_GraphQl.Services
                     return null;
                 }
 
-                LivroDTO retorno = new LivroDTO()
-                {
-                    Id = result.Id,
-                    Nome = result.Nome,
-                    Autor = result.Autor,
-                    Lido = result.Lido
-                };
-
-                return retorno;
+                return result.ParseLivroDTo(result);
             }
             catch (Exception ex)
             {
@@ -169,26 +139,6 @@ namespace API_Rest_GraphQl.Services
             }
         }
 
-        private LivroDTO ParseLivroDTo(Livro livro)
-        {
-            return new LivroDTO()
-            {
-                Id = livro.Id,
-                Nome = livro.Nome,
-                Autor = livro.Autor,
-                Lido = livro.Lido,
-            };
-        }
-
-        private Livro ParseLivro(LivroDTO livro)
-        {
-            return new Livro()
-            {
-                Id = livro.Id,
-                Nome = livro.Nome,
-                Autor = livro.Autor,
-                Lido = livro.Lido,
-            };
-        }
+        
     }
 }

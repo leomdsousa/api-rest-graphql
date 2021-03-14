@@ -27,28 +27,27 @@ namespace API_Rest_GraphQl.Controllers.Rest
         [AllowAnonymous]
         public ActionResult Token(Usuario user)
         {
-            dynamic result = new ExpandoObject();
-            result.user = user;
-            result.token = string.Empty;
-
             try
             {
                 var usuario = _usuarioRepository.ObterUsuario(user.Login, user.Senha);
 
                 if (usuario == null)
                 {
-                    return NotFound(result);
+                    return NotFound();
                 }
 
                 var token = _tokenService.GerarToken(usuario);
 
                 if (string.IsNullOrEmpty(token))
                 {
-                    return NotFound(result);
+                    return NotFound();
                 }
 
-                result.token = token;
-                return Ok(result);
+                return Ok(new 
+                {
+                    usuario = usuario.ParseUsuarioDTO(usuario),
+                    token = token
+                });
             }
             catch (Exception ex)
             {
