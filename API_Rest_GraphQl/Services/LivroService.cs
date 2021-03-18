@@ -2,6 +2,7 @@
 using API_Rest_GraphQl.Models.DTOs;
 using API_Rest_GraphQl.Repositorios.Interfaces;
 using API_Rest_GraphQl.Services.Interfaces;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,24 +12,26 @@ namespace API_Rest_GraphQl.Services
     public class LivroService : ILivroService
     {
         private readonly ILivroRepository _repository;
-        
-        public LivroService(ILivroRepository repository)
+        private readonly Utilities.Mapper _mapper;
+
+        public LivroService(ILivroRepository repository, Utilities.Mapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<LivroDTO> ObterLivro(decimal id)
         {
             try
             {
-                var livro = _repository.ObterLivro(id);
+                var livro = await Task.Run(() => _repository.ObterLivro(id));
 
                 if(livro == null)
                 {
                     return null;
                 }
 
-                return livro.ParseLivroDTo(livro);
+                return _mapper.mapper.Map<LivroDTO>(livro); ;
             }
             catch(Exception ex)
             {
@@ -40,7 +43,7 @@ namespace API_Rest_GraphQl.Services
         {
             try
             {
-                var livros = _repository.ObterLivros();
+                var livros = await Task.Run(() => _repository.ObterLivros());
 
                 if(livros == null)
                 {
@@ -66,24 +69,18 @@ namespace API_Rest_GraphQl.Services
         {
             try
             {
-                Livro input = new Livro()
-                {
-                    Id = livro.Id,
-                    Nome = livro.Nome,
-                    Autor = livro.Autor,
-                    Lido = livro.Lido,
-                    DataInclusao =  DateTime.Now,
-                    UsuarioInclusao = 1
-                };
+                Livro input = _mapper.mapper.Map<Livro>(livro);
+                input.DataInclusao = DateTime.Now;
+                input.UsuarioInclusao = 1;
 
-                var result = _repository.AdicionarLivro(input);
+                var result = await Task.Run(() => _repository.AdicionarLivro(input));
 
                 if(result == null)
                 {
                     return null;
                 }
 
-                return result.ParseLivroDTo(result);
+                return _mapper.mapper.Map<LivroDTO>(result);
             }
             catch (Exception ex)
             {
@@ -95,7 +92,7 @@ namespace API_Rest_GraphQl.Services
         {
             try
             {
-                var input = _repository.ObterLivro(livro.Id);
+                var input = await Task.Run(() => _repository.ObterLivro(livro.Id));
 
                 if(input == null)
                 {
@@ -112,7 +109,7 @@ namespace API_Rest_GraphQl.Services
                     return null;
                 }
 
-                return result.ParseLivroDTo(result);
+                return _mapper.mapper.Map<LivroDTO>(result);
             }
             catch (Exception ex)
             {
@@ -124,7 +121,7 @@ namespace API_Rest_GraphQl.Services
         {
             try
             {
-                var livro = _repository.ObterLivro(id);
+                var livro = await Task.Run(() => _repository.ObterLivro(id));
 
                 if(livro == null)
                 {

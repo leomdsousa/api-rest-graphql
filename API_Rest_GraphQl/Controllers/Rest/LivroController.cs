@@ -27,7 +27,7 @@ namespace API_Rest_GraphQl.Controllers.Rest
         {
             try
             {
-                return Ok();
+                return Ok(new { teste = "sucesso" });
             }
             catch(Exception ex)
             {
@@ -36,9 +36,9 @@ namespace API_Rest_GraphQl.Controllers.Rest
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("obter/{id}")]
         [Authorize(Roles = "Administrador, Usuario")]
-        public async Task<ActionResult<dynamic>> Get(decimal id)
+        public async Task<ActionResult<dynamic>> Obter(decimal id)
         {
             try
             {
@@ -58,9 +58,9 @@ namespace API_Rest_GraphQl.Controllers.Rest
         }
 
         [HttpGet]
-        [Route("")]
+        [Route("obter")]
         [Authorize(Roles = "Administrador, Usuario")]
-        public async Task<ActionResult<List<LivroDTO>>> GetTodos()
+        public async Task<ActionResult<List<LivroDTO>>> ObterTodos()
         {
             try
             {
@@ -80,9 +80,9 @@ namespace API_Rest_GraphQl.Controllers.Rest
         }
 
         [HttpPost]
-        [Route("")]
+        [Route("inlcuir")]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<dynamic>> Post(LivroDTO livro)
+        public async Task<ActionResult<dynamic>> Adicionar(LivroDTO livro)
         {
             try
             {
@@ -102,9 +102,9 @@ namespace API_Rest_GraphQl.Controllers.Rest
         }
 
         [HttpPut]
-        [Route("")]
+        [Route("atualizar")]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<dynamic>> Put(LivroDTO livro)
+        public async Task<ActionResult<dynamic>> Atualizar(LivroDTO livro)
         {
             try
             {
@@ -124,9 +124,9 @@ namespace API_Rest_GraphQl.Controllers.Rest
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("excluir/{id}")]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<dynamic>> Delete(decimal id)
+        public async Task<ActionResult<dynamic>> Excluir(decimal id)
         {
             try
             {

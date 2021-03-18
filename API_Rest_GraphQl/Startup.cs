@@ -5,6 +5,7 @@ using API_Rest_GraphQl.Repositorios;
 using API_Rest_GraphQl.Repositorios.Interfaces;
 using API_Rest_GraphQl.Services;
 using API_Rest_GraphQl.Services.Interfaces;
+using API_Rest_GraphQl.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,7 +32,8 @@ namespace API_Rest_GraphQl
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddCors();
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson();
 
             var settings = Configuration.GetSection("AppSettings");
             var key = Encoding.ASCII.GetBytes(settings.GetSection("Configuration").GetSection("Secret").Value);
@@ -57,6 +59,8 @@ namespace API_Rest_GraphQl
             });
 
             IdentityModelEventSource.ShowPII = true;
+
+            services.AddScoped<Mapper>();
 
             //CONTEXT
             services.AddDbContext<BibliotecaContext>(opt => opt.UseInMemoryDatabase("Biblioteca"));

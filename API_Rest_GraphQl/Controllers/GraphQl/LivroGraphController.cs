@@ -8,6 +8,8 @@ using GraphQL.Types;
 using API_Rest_GraphQl.Utilities;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using API_Rest_GraphQl.Mutations;
+using Newtonsoft.Json;
 
 namespace API_Rest_GraphQl.Controllers.GraphQL
 {
@@ -36,11 +38,11 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("livro")]
         [Produces("application/json")]
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> Livro([FromBody] GraphQLQuery request)
+        public async Task<IActionResult> LivroQuery([FromBody] GraphQLQuery request)
         {
             try
             {
@@ -75,6 +77,48 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
             catch(Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        [HttpPost]
+        [Route("livro")]
+        [Produces("application/json")]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> LivroMutation([FromBody] GraphQLQuery request)
+        {
+            try
+            {
+                if(request == null)
+                {
+                    return BadRequest();
+                }
+
+                dynamic inputs = request.Variables;
+
+                ExecutionOptions options = new ExecutionOptions()
+                {
+                    Schema = new Schema()
+                    {
+                        Mutation = new LivroMutation(_repository)
+                    },
+                    Query = request.Query,
+                    Inputs = JsonConvert.DeserializeObject<Inputs>(inputs.ToString())
+                };
+
+                var result = await new DocumentExecuter()
+                    .ExecuteAsync(options)
+                    .ConfigureAwait(false);
+
+                if (result.Errors?.Count() > 0)
+                {
+                    return BadRequest(result);
+                }
+
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                throw ex; 
             }
         }
     }
