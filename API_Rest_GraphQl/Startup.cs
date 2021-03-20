@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using API_Rest_GraphQl.Models.AppSettings;
 using API_Rest_GraphQl.Models.Context;
@@ -13,8 +16,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace API_Rest_GraphQl
 {
@@ -27,7 +30,7 @@ namespace API_Rest_GraphQl
             Configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // Esse método é chamado pelo runtime. Use-o para add serviços ao container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
@@ -58,7 +61,16 @@ namespace API_Rest_GraphQl
                 };
             });
 
-            IdentityModelEventSource.ShowPII = true;
+            services.AddSwaggerGen(config => 
+            {
+                config.SwaggerDoc("v1", new OpenApiInfo() { Title = "Doc v1", Version = "v1" } );
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+                config.IncludeXmlComments(xmlPath, true);
+                config.CustomSchemaIds(x => x.FullName);
+            });
 
             services.AddScoped<Mapper>();
 
@@ -75,7 +87,7 @@ namespace API_Rest_GraphQl
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // Esse método é chamado pelo runtime. Use-o para configurar o pipeline da requisição HTTP.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ISeedingService seedingService)
         {
             seedingService.ObterLivros();
@@ -99,6 +111,15 @@ namespace API_Rest_GraphQl
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(config => 
+            {
+                config.RoutePrefix = "swagger";
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Doc v1");
+
             });
         }
     }

@@ -1,11 +1,9 @@
 ﻿using API_Rest_GraphQl.Models.Entities;
 using API_Rest_GraphQl.Repositorios.Interfaces;
-using API_Rest_GraphQl.Services;
 using API_Rest_GraphQl.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Dynamic;
 
 namespace API_Rest_GraphQl.Controllers.Rest
 {
@@ -22,6 +20,13 @@ namespace API_Rest_GraphQl.Controllers.Rest
             _tokenService = tokenService;
         }
 
+        /// <summary>
+        /// Autentica o usuário
+        /// </summary>
+        /// <param name="user"> Usuário a ser autenticado </param>
+        /// <returns code="200" > Sucesso na altenticaçaõ, retorna o usuário e o token </returns>
+        /// <returns code="400" > Erro na requisição enviada </returns>
+        /// <returns code="500" > Erro interno </returns>
         [HttpPost]
         [Route("token")]
         [AllowAnonymous]

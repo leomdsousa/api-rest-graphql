@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using GraphQL;
-using API_Rest_GraphQl.Queries;
-using API_Rest_GraphQl.Repositorios.Interfaces;
-using GraphQL.Types;
-using API_Rest_GraphQl.Utilities;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
-using API_Rest_GraphQl.Mutations;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using GraphQL;
+using GraphQL.Types;
+using API_Rest_GraphQl.Queries;
+using API_Rest_GraphQl.Repositorios.Interfaces;
+using API_Rest_GraphQl.Utilities;
+using API_Rest_GraphQl.Mutations;
 
 namespace API_Rest_GraphQl.Controllers.GraphQL
 {
@@ -23,6 +23,11 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
             _repository = repository;
         }
 
+        /// <summary>
+        /// Teste
+        /// </summary>
+        /// <returns code="200"> Sucesso </returns>
+        /// /// <returns code="400"> Erro </returns>
         [HttpGet]
         [Route("teste")]
         [AllowAnonymous]
@@ -34,10 +39,16 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
             }
             catch (Exception ex)
             {
-                throw ex;
+                return BadRequest();
             }
         }
 
+        /// <summary>
+        /// Endpoint para obter livro ou livros 
+        /// </summary>
+        /// <param name="request"> Objeto contendo a query, o nome da operação e variáveis </param>
+        /// <returns code="200"> Retorna a consulta solicitada </returns>
+        /// <returns code="400"> Erro </returns>
         [HttpGet]
         [Route("livro")]
         [Produces("application/json")]
@@ -46,7 +57,7 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
         {
             try
             {
-                if(request == null)
+                if (request == null)
                 {
                     return BadRequest();
                 }
@@ -62,24 +73,30 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
                     Query = request.Query,
                     Inputs = inputs
                 };
-                
+
                 var result = await new DocumentExecuter()
                             .ExecuteAsync(options)
                             .ConfigureAwait(false);
 
-                if(result.Errors?.Count() > 0)
+                if (result.Errors?.Count() > 0)
                 {
                     return BadRequest(result);
                 }
 
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw ex;
+                return BadRequest();
             }
         }
 
+        /// <summary>
+        /// Endpoint para inclusão ou alteração de livro
+        /// </summary>
+        /// <param name="request"> Objeto contendo a query, o nome da operação e variáveis </param>
+        /// <returns code="200"> Retorna identificação do livro incluído ou alterado </returns>
+        /// <returns code="400"> Erro </returns>
         [HttpPost]
         [Route("livro")]
         [Produces("application/json")]
@@ -88,7 +105,7 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
         {
             try
             {
-                if(request == null)
+                if (request == null)
                 {
                     return BadRequest();
                 }
@@ -116,9 +133,9 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
 
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw ex; 
+                throw ex;
             }
         }
     }
