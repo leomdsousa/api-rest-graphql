@@ -2,7 +2,7 @@
 
 API utilizando tanto REST quanto GraphQL para os recursos do contexto de uma livraria.
 
-# Informações sobre o projeto
+## Informações sobre o projeto
 
 - Swagger para a documentação da API.
 - Camada de Repository para a persistência de dados. 
