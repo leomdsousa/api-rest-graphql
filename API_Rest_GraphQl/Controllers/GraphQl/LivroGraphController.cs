@@ -10,6 +10,8 @@ using API_Rest_GraphQl.Queries;
 using API_Rest_GraphQl.Repositorios.Interfaces;
 using API_Rest_GraphQl.Utilities;
 using API_Rest_GraphQl.Mutations;
+using AllowAnonymousAttribute = GraphQL.AllowAnonymousAttribute;
+using AuthorizeAttribute = GraphQL.AuthorizeAttribute;
 
 namespace API_Rest_GraphQl.Controllers.GraphQL
 {
@@ -71,7 +73,8 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
                         Query = new LivroQuery(_repository)
                     },
                     Query = request.Query,
-                    Inputs = inputs
+                    Variables = inputs
+                    //Inputs = inputs
                 };
 
                 var result = await new DocumentExecuter()
@@ -119,7 +122,8 @@ namespace API_Rest_GraphQl.Controllers.GraphQL
                         Mutation = new LivroMutation(_repository)
                     },
                     Query = request.Query,
-                    Inputs = JsonConvert.DeserializeObject<Inputs>(inputs.ToString())
+                    Variables = JsonConvert.DeserializeObject<Inputs>(inputs.ToString())
+                    //Inputs = JsonConvert.DeserializeObject<Inputs>(inputs.ToString())
                 };
 
                 var result = await new DocumentExecuter()
